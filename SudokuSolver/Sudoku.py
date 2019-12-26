@@ -27,8 +27,10 @@ class Cell(object):
 
 
 class Sudoku(object):
-    # grid = [[]]
-    grid = [ [Cell() for i in range(NUM_COLS)],
+    grid = [[None for _ in range(NUM_COLS)] for _ in range(NUM_ROWS)]
+        
+    def __init__(self, _grid):        
+        self.grid = [ [Cell() for i in range(NUM_COLS)],
              [Cell() for i in range(NUM_COLS)],
              [Cell() for i in range(NUM_COLS)],
              [Cell() for i in range(NUM_COLS)],
@@ -38,8 +40,6 @@ class Sudoku(object):
              [Cell() for i in range(NUM_COLS)],
              [Cell() for i in range(NUM_COLS)] ]
 
-        
-    def __init__(self, _grid):        
         for row in range(NUM_ROWS):
             for col in range(NUM_COLS):
                 self.grid[row][col].setValue(_grid[row][col])
@@ -52,5 +52,64 @@ class Sudoku(object):
             for col in range(NUM_COLS):
                 outGrid[row].append(self.grid[row][col].getValue())
         return outGrid
+
+    def solveRows(self):
+        for row in range(NUM_ROWS):
+            values = []
+            for col in range(NUM_COLS):
+                if self.grid[row][col].getValue() != 0:
+                    values.append(self.grid[row][col].getValue())
+            if len(values) != 0:
+                for col in range(NUM_COLS):
+                    if self.grid[row][col].getValue() == 0:
+                        for value in values:
+                            self.grid[row][col].removePossibleValue(value)
+    
+    def solveCols(self):
+        for col in range(NUM_COLS):
+            values = []
+            for row in range(NUM_ROWS):
+                if self.grid[row][col].getValue() != 0:
+                    values.append(self.grid[row][col].getValue())
+            if len(values) != 0:
+                for row in range(NUM_ROWS):
+                    if self.grid[row][col].getValue() == 0:
+                        for value in values:
+                            self.grid[row][col].removePossibleValue(value)
+    
+    def solveSquares(self):
+        for squareRow in range(int(NUM_ROWS/3)):
+            for squareCol in range(int(NUM_COLS/3)):
+                values = []
+                for row in range(3):
+                    for col in range(3):
+                        if self.grid[squareRow*3+row][squareCol*3+col].getValue() != 0:
+                            values.append(self.grid[squareRow*3+row][squareCol*3+col].getValue())
+                if len(values) != 0:
+                    for row in range(3):
+                        for col in range(3):
+                            if self.grid[squareRow*3+row][squareCol*3+col].getValue() == 0:
+                                for value in values:
+                                    self.grid[squareRow*3+row][squareCol*3+col].removePossibleValue(value)
+    
+    def isSolved(self):
+        for row in range(NUM_ROWS):
+            for col in range(NUM_COLS):
+                if self.grid[row][col].getValue() == 0:
+                    return False
+        return True
+    
+    def solve(self):
+        while not self.isSolved():
+            self.solveRows()
+            self.solveCols()
+            self.solveSquares()
+
+
+                            
+
+
+
+
 
         
