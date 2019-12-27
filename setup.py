@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(name='SudokuSolver',
       version='0.1dev',
-      description='A simple sudocu solver',
+      description='A simple sudoku solver',
       url='tbd',
       author='Simone Podico',
       author_email='simpod@gmail.com',      

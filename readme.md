@@ -1,1 +1,1 @@
-A simple sudocu solver
+A simple sudoku solver
