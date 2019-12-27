@@ -42,16 +42,16 @@ class Sudoku(object):
 
         for row in range(NUM_ROWS):
             for col in range(NUM_COLS):
-                self.grid[row][col].setValue(_grid[row][col])
-        pass
-    
-    def getGrid(self):
-        outGrid = [list() for row in range(NUM_ROWS)]
+                self.grid[row][col].setValue(int(_grid[row*NUM_COLS+col]))
+ 
+    def getGrid(self):        
+        outGridString = ""
 
         for row in range(NUM_ROWS):
-            for col in range(NUM_COLS):
-                outGrid[row].append(self.grid[row][col].getValue())
-        return outGrid
+            for col in range(NUM_COLS):                
+                outGridString = outGridString + f"{self.grid[row][col].getValue()}"
+
+        return outGridString
 
     def solveRows(self):
         for row in range(NUM_ROWS):

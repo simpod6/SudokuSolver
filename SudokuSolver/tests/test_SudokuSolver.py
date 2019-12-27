@@ -1,45 +1,45 @@
 from unittest import TestCase
 from SudokuSolver.Sudoku import Sudoku, NUM_COLS, NUM_ROWS, Cell
 
-TEST_GRID = [ [5,3,0,0,7,0,0,0,0],
-             [6,0,0,1,9,5,0,0,0],
-             [0,9,8,0,0,0,0,6,0],
-             [8,0,0,0,6,0,0,0,3],
-             [4,0,0,8,0,3,0,0,1],
-             [7,0,0,0,2,0,0,0,6],
-             [0,6,0,0,0,0,2,8,0],
-             [0,0,0,4,1,9,0,0,5],
-             [0,0,0,0,8,0,0,7,9] ]
+TEST_GRID = ("530070000"
+             "600195000"
+             "098000060"
+             "800060003"
+             "400803001"
+             "700020006"
+             "060000280"
+             "000419005"
+             "000080079")
 
-SOLUTION_GRID = [ [5,3,4,6,7,8,9,1,2],
-                  [6,7,2,1,9,5,3,4,8],
-                  [1,9,8,3,4,2,5,6,7],
-                  [8,5,9,7,6,1,4,2,3],
-                  [4,2,6,8,5,3,7,9,1],
-                  [7,1,3,9,2,4,8,5,6],
-                  [9,6,1,5,3,7,2,8,4],
-                  [2,8,7,4,1,9,6,3,5],
-                  [3,4,5,2,8,6,1,7,9] ]
+SOLUTION_GRID = ("534678912"
+                 "672195348"
+                 "198342567"
+                 "859761423"
+                 "426853791"
+                 "713924856"
+                 "961537284"
+                 "287419635"
+                 "345286179")
 
-START_GRID_TEST_ROWS_COLS =    [ [0,3,4,6,7,8,9,1,2],
-                                 [6,0,2,1,9,5,3,4,8],
-                                 [1,9,0,3,4,2,5,6,7],
-                                 [8,5,9,0,6,1,4,2,3],
-                                 [4,2,6,8,0,3,7,9,1],
-                                 [7,1,3,9,2,0,8,5,6],
-                                 [9,6,1,5,3,7,0,8,4],
-                                 [2,8,7,4,1,9,6,0,5],
-                                 [3,4,5,2,8,6,1,7,0] ]
+START_GRID_TEST_ROWS_COLS = ("034678912"
+                             "602195348"
+                             "190342567"
+                             "859061423"
+                             "426803791"
+                             "713920856"
+                             "961537084"
+                             "287419605"
+                             "345286170")
 
-START_GRID_TEST_SQUARES = [ [0,3,4,6,0,8,9,1,0],
-                            [6,7,2,1,9,5,3,4,8],
-                            [1,9,8,3,4,2,5,6,7],
-                            [8,5,9,7,6,1,4,2,3],
-                            [0,2,6,8,0,3,7,9,0],
-                            [7,1,3,9,2,4,8,5,6],
-                            [9,6,1,5,3,7,2,8,4],
-                            [2,8,7,4,1,9,6,3,5],
-                            [0,4,5,2,0,6,1,7,0] ]
+START_GRID_TEST_SQUARES = ("034608910"
+                           "672195348"
+                           "198342567"
+                           "859761423"
+                           "026803790"
+                           "713924856"
+                           "961537284"
+                           "287419635"
+                           "045206170")
 
 
 class TestSudokuSolver(TestCase):
@@ -51,18 +51,17 @@ class TestSudokuSolver(TestCase):
         sudoku = Sudoku(TEST_GRID)
 
         outputGrid = sudoku.getGrid()
-
-        for row in range(NUM_ROWS):
-            for col in range(NUM_COLS):
-                self.assertEqual(outputGrid[row][col], TEST_GRID[row][col])
+        
+        self.assertEqual(outputGrid, TEST_GRID)
     
     def test_cell(self):                 
         for row in range(NUM_ROWS):
             cell = Cell()
             cell.setValue(0)
-            for value in SOLUTION_GRID[row][1:]:
+            for i in range(8):
+                value = int(SOLUTION_GRID[row * NUM_COLS + i + 1])
                 cell.removePossibleValue(value)
-            self.assertEqual(cell.getValue(), SOLUTION_GRID[row][0])
+            self.assertEqual(cell.getValue(), int(SOLUTION_GRID[row * NUM_COLS]))
     
     def test_solutionRows(self):
         sudoku = Sudoku(START_GRID_TEST_ROWS_COLS)
@@ -70,9 +69,7 @@ class TestSudokuSolver(TestCase):
         
         outputGrid = sudoku.getGrid()
 
-        for row in range(NUM_ROWS):
-            for col in range(NUM_COLS):
-                self.assertEqual(outputGrid[row][col], SOLUTION_GRID[row][col])
+        self.assertEqual(outputGrid, SOLUTION_GRID)
         
     
     def test_solutionCols(self):
@@ -81,9 +78,7 @@ class TestSudokuSolver(TestCase):
         
         outputGrid = sudoku.getGrid()
 
-        for row in range(NUM_ROWS):
-            for col in range(NUM_COLS):
-                self.assertEqual(outputGrid[row][col], SOLUTION_GRID[row][col])
+        self.assertEqual(outputGrid, SOLUTION_GRID)
 
     def test_solutionSquares(self):
         sudoku = Sudoku(START_GRID_TEST_SQUARES)
@@ -91,9 +86,7 @@ class TestSudokuSolver(TestCase):
         
         outputGrid = sudoku.getGrid()
 
-        for row in range(NUM_ROWS):
-            for col in range(NUM_COLS):
-                self.assertEqual(outputGrid[row][col], SOLUTION_GRID[row][col])
+        self.assertEqual(outputGrid, SOLUTION_GRID)
     
     def test_isSolved(self):
         sudoku = Sudoku(START_GRID_TEST_SQUARES)
@@ -108,26 +101,4 @@ class TestSudokuSolver(TestCase):
         
         outputGrid = sudoku.getGrid()
 
-        for row in range(NUM_ROWS):
-            for col in range(NUM_COLS):
-                self.assertEqual(outputGrid[row][col], SOLUTION_GRID[row][col])
-
-
-
-
-
-
-            
-        
-
-
-
-        
-
-
-        
-
-        
-
-        # self.assertEqual("Unknown command!", self.commandManager.executeCommand("text", "/asdasd", self.chat_id, self.testUsers[0]))
-
+        self.assertEqual(outputGrid, SOLUTION_GRID)

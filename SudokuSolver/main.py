@@ -1,14 +1,15 @@
 from Sudoku import Sudoku, NUM_COLS, NUM_ROWS
+import csv
 
-grid = [[0,0,4,3,0,0,2,0,9],
-[0,0,5,0,0,9,0,0,1],
-[0,7,0,0,6,0,0,4,3],
-[0,0,6,0,0,2,0,8,7],
-[1,9,0,0,0,7,4,0,0],
-[0,5,0,0,8,3,0,0,0],
-[6,0,0,0,0,0,1,0,5],
-[0,0,3,5,0,8,6,9,0],
-[0,4,2,9,1,0,3,0,0] ]
+grid = ("004300209"
+        "005009001"
+        "070060043"
+        "006002087"
+        "190007400"
+        "050083000"
+        "600000105"
+        "003508690"
+        "042910300" )
 
 
 def main():
@@ -18,7 +19,7 @@ def main():
     outputGrid = sudoku.getGrid()
 
     for row in range(NUM_ROWS):
-        print(outputGrid[row])
+        print(outputGrid[row*NUM_COLS:row*NUM_COLS+9])
 
 
 if __name__ == "__main__":
