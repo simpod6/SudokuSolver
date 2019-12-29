@@ -41,6 +41,10 @@ START_GRID_TEST_SQUARES = ("034608910"
                            "287419635"
                            "045206170")
 
+START_GRID_TEST_HIDDEN_SINGLES = "068700900004000071030809050300080100040005007007304092602001005000020600059030028"
+SOLUTION_GRID_HIDDEN_SINGLES = "568712943924653871731849256395287164246195387817364592682971435473528619159436728"
+
+
 
 class TestSudokuSolver(TestCase):
     
@@ -102,3 +106,11 @@ class TestSudokuSolver(TestCase):
         outputGrid = sudoku.getGrid()
 
         self.assertEqual(outputGrid, SOLUTION_GRID)
+
+    def test_solveHiddenSingles(self):
+        sudoku = Sudoku(START_GRID_TEST_HIDDEN_SINGLES)
+        sudoku.solve()        
+        
+        outputGrid = sudoku.getGrid()
+
+        self.assertEqual(outputGrid, SOLUTION_GRID_HIDDEN_SINGLES)
